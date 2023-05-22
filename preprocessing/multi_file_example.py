@@ -63,3 +63,5 @@ for i, file in enumerate(source_path.glob(pattern)):
 
     current_rows += rows
     print("loaded", i)
+
+print(np.memmap("datasets/iris_dataset/train.memmap", dtype='float32', mode='r'))
