@@ -34,11 +34,11 @@ xs, ys = (
 )
 
 rows, *_ = xs.shape
-fp = np.memmap(data_path / "train.memmap", dtype='float32', mode='w+', shape=xs.shape)
+fp = np.memmap(data_path / "train_memmap.npy", dtype='float32', mode='w+', shape=xs.shape)
 fp[:rows] = xs[:rows]
 fp.flush()
 
 rows, *_ = ys.shape
-fp = np.memmap(data_path / "target.memmap", dtype="int64", mode='w+', shape=ys.shape)
+fp = np.memmap(data_path / "target_memmap.npy", dtype="int64", mode='w+', shape=ys.shape)
 fp[:rows] = ys[:rows]
 fp.flush()
