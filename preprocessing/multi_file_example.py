@@ -2,9 +2,11 @@ import pandas as pd
 import numpy as np
 import pathlib
 import os
+from tqdm import tqdm
 
 # one-liner for copying data 
 # for((i=1; i <= 100; i++)); do cp source_iris/iris.data "iris_dataset/iris_${i}.data"; done
+
 source_path = os.getenv("SOURCE_PATH")
 if source_path is None: raise Exception("Missing SOURCE_PATH variable")
 
@@ -17,10 +19,9 @@ data_path.mkdir(exist_ok=True)
 
 rows = 0
 cols = 0
-for i, file in enumerate(source_path.glob(pattern)):
+for i, file in enumerate(tqdm(list(source_path.glob(pattern)))):
     df = pd.read_csv(file, header=None)
     df_rows, df_cols = df.shape
-    print(df.shape, i)
     rows += df_rows
     cols = df_cols
 
@@ -28,7 +29,7 @@ train_file = np.memmap(data_path / "train.memmap", dtype='float32', mode='w+', s
 target_file = np.memmap(data_path / "target.memmap", dtype='int64', mode='w+', shape=(rows))
 
 current_rows = 0
-for i, file in enumerate(source_path.glob(pattern)):
+for i, file in enumerate(tqdm(list(source_path.glob(pattern)))):
     df = pd.read_csv(
             file, 
             header=None,
@@ -62,4 +63,3 @@ for i, file in enumerate(source_path.glob(pattern)):
     target_file.flush()
 
     current_rows += rows
-    print("loaded", i)
