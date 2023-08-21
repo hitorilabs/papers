@@ -66,6 +66,7 @@ def train(model, trainloader, testloader, config, logger_fn):
                 last_loss = running_loss / 1000 # loss per mini-batch
                 running_loss = 0.0
         
+        last_loss = running_loss / (idx % 1000)
         end = time.monotonic() 
 
         with torch.no_grad():
