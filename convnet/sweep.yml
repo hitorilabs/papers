@@ -1,0 +1,21 @@
+program: train_convnet.py
+method: bayes
+metric:
+  name: val_accuracy
+  goal: maximize
+parameters:
+  learning_rate:
+    min: 0.0001
+    max: 0.01
+  batch_size: {'values': [16, 32, 64, 128, 256]}
+  num_epochs: {'values': [100, 200, 300]}
+  momentum: 
+    min: 0.8
+    max: 0.99
+  weight_decay:
+    min: 0.0
+    max: 0.01
+early_terminate:
+  type: hyperband
+  min_iter: 3
+  eta: 3

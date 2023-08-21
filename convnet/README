@@ -1,0 +1,2 @@
+Usage:
+    wandb sweep --project <project_name> sweep.yaml
