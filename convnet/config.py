@@ -3,12 +3,11 @@ from dataclasses import dataclass, asdict
 
 @dataclass
 class CIFAR10Config:
-    batch_size: int = 3
-    num_epochs: int = 50
-    learning_rate: int = 1e-3
+    batch_size: int = 256
+    num_epochs: int = 100
+    learning_rate: int = 0.0068
     num_classes: int = 10
-    data_shape: Tuple[int, int, int]= (3, 32, 32) # (channels, height, width)
-    momentum: float = 0.0
-    weight_decay: float = 0.0
+    momentum: float = 0.86583
+    weight_decay: float = 0.00834863
 
 config = CIFAR10Config()

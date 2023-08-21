@@ -1,8 +1,5 @@
-import wandb
-from config import config
-from dataclasses import asdict
+from typing import Tuple
 import time
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -68,6 +65,7 @@ def train(model, trainloader, testloader, config, logger_fn):
             if idx % 1000 == 999:
                 last_loss = running_loss / 1000 # loss per mini-batch
                 running_loss = 0.0
+        
         end = time.monotonic() 
 
         with torch.no_grad():
@@ -82,15 +80,7 @@ def train(model, trainloader, testloader, config, logger_fn):
 
             logger_fn({"val_accuracy": correct / total, "train_loss": last_loss, "epoch_time": end - start})
 
-    return model
-
-if __name__ == '__main__':
-
-    run = wandb.init(
-        project="cifar10",
-        config=asdict(config)
-    )
-
+def get_dataloaders(config) -> Tuple[torch.utils.data.DataLoader, torch.utils.data.DataLoader]:
     transform = torchvision.transforms.Compose([
         torchvision.transforms.ToTensor(),
         torchvision.transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
@@ -98,25 +88,14 @@ if __name__ == '__main__':
 
     trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
                                             download=True, transform=transform)
-    trainloader = torch.utils.data.DataLoader(trainset, batch_size=wandb.config["batch_size"],
+    trainloader = torch.utils.data.DataLoader(trainset, batch_size=config.batch_size,
                                             shuffle=True, num_workers=2, 
                                             pin_memory=True)
 
     testset = torchvision.datasets.CIFAR10(root='./data', train=False,
                                         download=True, transform=transform)
-    testloader = torch.utils.data.DataLoader(testset, batch_size=wandb.config["batch_size"],
+    testloader = torch.utils.data.DataLoader(testset, batch_size=config.batch_size,
                                             shuffle=False, num_workers=2,
                                             pin_memory=True)
-
-    with torch.device("cuda:0"):
-        model = ConvNet()
     
-    wandb.watch(model)
-
-    train(
-        model=model,
-        trainloader=trainloader,
-        testloader=testloader,
-        config=wandb.config, 
-        logger_fn=wandb.log
-        )
+    return trainloader, testloader
