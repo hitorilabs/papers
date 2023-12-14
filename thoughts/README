@@ -1,0 +1,5 @@
+My general intuition tells me that you actually just need to understand what
+kind of problem you are trying to solve, break it down into sub-problems and
+traverse graph of sub-problems until you have either found an answer or you
+have clearly identified a roadblock that is too challenging or tedious to
+overcome.
