@@ -1,0 +1,3 @@
+torch
+xformers
+tabulate
