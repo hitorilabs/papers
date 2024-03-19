@@ -1,3 +1,7 @@
+```
+NOTE: paused work on this until i can do quick, expressive training runs
+```
+
 # papers
 Now that I have a 3090, I think it'll be an interesting
 exercise to go through key papers in deep learning
